@@ -28,15 +28,16 @@ async function save(results, extractFaces) {
             const imgDir = path.resolve(__dirname, './imgStore');
             await fs.mkdir(imgDir, { recursive: true });
 
+            const newPath = 'face'+label+Date.now()+index+'.jpg';
+            const outPath = path.join(imgDir, newPath);
             if (extractFaces[index]) {
-                const outPath = path.join(imgDir, `face_${label}_${Date.now()}_${index}.png`);
                 const data = extractFaces[index].toBuffer('image/png');
                 await fs.writeFile(outPath, data);
                 log(`Saved face image to ${outPath}`);
             }
 
             db.push({
-                id: nextId++, name: label, expression, age, gender, date, time, path: `face_${label}_${Date.now()}_${index}.png`,
+                id: nextId++, name: label, expression, age, gender, date, time, path: newPath,
             });
 
             await fs.writeFile('./db.json', JSON.stringify(db, null, 2));

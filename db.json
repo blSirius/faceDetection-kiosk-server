@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "name": "Bukayo Saka",
+    "expression": "happy",
+    "age": 35.38195037841797,
+    "gender": "male",
+    "date": "2024-03-04",
+    "time": "16:06:42",
+    "path": "faceBukayo Saka17095432030371.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Martin Odeguard",
+    "expression": "happy",
+    "age": 36.24210739135742,
+    "gender": "male",
+    "date": "2024-03-04",
+    "time": "16:06:42",
+    "path": "faceMartin Odeguard17095432029370.jpg"
+  }
+]

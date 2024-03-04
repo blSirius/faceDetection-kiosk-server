@@ -2,6 +2,7 @@ const express = require("express");
 const fileUpload = require("express-fileupload");
 const cors = require("cors");
 const faceApiService = require("./faceapiService.js");
+const { fetch_face_data } = require("./dataService.js")
 require('dotenv').config()
 
 const app = express();
@@ -23,6 +24,19 @@ app.post("/prediction", async (req, res) => {
     detectedFaces: result,
   });
 });
+
+
+app.get("/fetch_face_data", async (req, res) => {
+  try {
+    const data = await fetch_face_data();
+    res.json(data)
+  } catch (error) {
+    console.error('Error reading the database file:');
+    res.json(error.message)
+  }
+});
+
+app.use('/fetch_face_image', express.static('./imgStore'));
 
 
 app.listen(port, () => {
