@@ -39,17 +39,13 @@ async function save(results, extractFaces) {
                 id: nextId++, name: label, expression, age, gender, date, time, path: `face_${label}_${Date.now()}_${index}.png`,
             });
 
+            await fs.writeFile('./db.json', JSON.stringify(db, null, 2));
+            log('Results saved to db.json');
+
         } else {
             myCache.ttl(label, 120);
         }
     }));
-
-    try {
-        await fs.writeFile('./db.json', JSON.stringify(db, null, 2));
-        log('Results saved to db.json');
-    } catch (error) {
-        console.error('Error writing to db.json:', error);
-    }
 }
 
 module.exports = { save };

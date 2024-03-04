@@ -4,7 +4,6 @@ const canvas = require("canvas");
 const fs = require('fs').promises;
 const db = require('./db.js');
 const { log } = require("console");
-const path = require('path');
 
 const { Canvas, Image, loadImage } = canvas;
 global.ImageData = canvas.ImageData;
@@ -25,22 +24,30 @@ async function detect(img) {
   const labeledFaceDescriptors = await getLabeledFaceDescriptions();
   const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6);
 
-  const detections = await faceapi.detectAllFaces(img)
-    .withFaceLandmarks()
-    .withFaceExpressions()
-    .withAgeAndGender()
-    .withFaceDescriptors();
+  try {
+    const detections = await faceapi.detectAllFaces(img)
+      .withFaceLandmarks()
+      .withFaceExpressions()
+      .withAgeAndGender()
+      .withFaceDescriptors();
 
-  const results = detections.map(detection => {
-    const faceMatch = faceMatcher.findBestMatch(detection.descriptor);
-    return { detection, faceMatch };
-  });
+    if (detections.length >= 1) {
+      const results = detections.map(detection => {
+        const faceMatch = faceMatcher.findBestMatch(detection.descriptor);
+        return { detection, faceMatch };
+      });
 
-  const extractFaces = await faceapi.extractFaces(img, detections.map(det => det.detection));
+      const extractFaces = await faceapi.extractFaces(img, detections.map(det => det.detection));
 
-  db.save(results, extractFaces);
+      db.save(results, extractFaces);
 
-  return results;
+      return results;
+    }
+  }
+  catch (error) {
+    console.log('No found face');
+    return [];
+  }
 };
 
 async function main(file) {
@@ -64,7 +71,7 @@ async function getLabeledFaceDescriptions() {
     .then(dirents => dirents.filter(dirent => dirent.isDirectory()).map(dirent => dirent.name));
   return Promise.all(labels.map(async label => {
     const descriptions = [];
-    for (let i = 1; i <= 1; i++) { // Assuming you want to loop just once; adjust if needed.
+    for (let i = 1; i <= 1; i++) {
       const imgPath = `./labels/${label}/${i}.jpg`;
       const img = await loadImage(imgPath);
       const detections = await faceapi
@@ -87,7 +94,7 @@ async function loadModels() {
   await faceapi.nets.faceRecognitionNet.loadFromDisk('./models');
   await faceapi.nets.faceExpressionNet.loadFromDisk('./models');
   await faceapi.nets.ageGenderNet.loadFromDisk('./models');
-  console.log('Models loaded');
+  log('Models loaded');
 
   modelsLoaded = true;
 };
