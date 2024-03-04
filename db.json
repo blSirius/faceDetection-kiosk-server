@@ -1,92 +1,32 @@
 [
   {
     "id": 1,
-    "name": "Martin Odeguard",
-    "age": 41.17327880859375,
+    "name": "Bukayo Saka",
+    "expression": "happy",
+    "age": 35.97311019897461,
     "gender": "male",
     "date": "2024-03-04",
-    "time": "11:19:26",
-    "expression": "happy"
+    "time": "12:11:11",
+    "path": "face_Bukayo Saka_1709529072075_0.png"
   },
   {
     "id": 2,
-    "name": "Martin Odeguard",
-    "age": 41.17327880859375,
+    "name": "Supakrit Julamanee",
+    "expression": "neutral",
+    "age": 23.7738037109375,
     "gender": "male",
     "date": "2024-03-04",
-    "time": "11:22:49",
-    "expression": "happy"
+    "time": "12:11:11",
+    "path": "face_Supakrit Julamanee_1709529072075_1.png"
   },
   {
     "id": 3,
     "name": "Martin Odeguard",
-    "age": 41.17327880859375,
-    "gender": "male",
-    "date": "2024-03-04",
-    "time": "11:26:03",
-    "expression": "happy"
-  },
-  {
-    "id": 4,
-    "name": "Bukayo Saka",
-    "age": 35.38195037841797,
-    "gender": "male",
-    "date": "2024-03-04",
-    "time": "11:26:38",
-    "expression": "happy"
-  },
-  {
-    "id": 5,
-    "name": "Martin Odeguard",
+    "expression": "happy",
     "age": 36.24210739135742,
     "gender": "male",
     "date": "2024-03-04",
-    "time": "11:31:41",
-    "expression": "happy"
-  },
-  {
-    "id": 6,
-    "name": "Bukayo Saka",
-    "age": 35.38195037841797,
-    "gender": "male",
-    "date": "2024-03-04",
-    "time": "11:31:41",
-    "expression": "happy"
-  },
-  {
-    "id": 7,
-    "name": "Martin Odeguard",
-    "age": 36.24210739135742,
-    "gender": "male",
-    "date": "2024-03-04",
-    "time": "11:36:46",
-    "expression": "happy"
-  },
-  {
-    "id": 8,
-    "name": "Bukayo Saka",
-    "age": 35.38195037841797,
-    "gender": "male",
-    "date": "2024-03-04",
-    "time": "11:36:46",
-    "expression": "happy"
-  },
-  {
-    "id": 9,
-    "name": "Supakrit Julamanee",
-    "age": 23.7738037109375,
-    "gender": "male",
-    "date": "2024-03-04",
-    "time": "11:37:15",
-    "expression": "neutral"
-  },
-  {
-    "id": 10,
-    "name": "Supakrit Julamanee",
-    "age": 18.218612670898438,
-    "gender": "male",
-    "date": "2024-03-04",
-    "time": "11:53:12",
-    "expression": "neutral"
+    "time": "12:12:18",
+    "path": "face_Martin Odeguard_1709529138536_0.png"
   }
 ]

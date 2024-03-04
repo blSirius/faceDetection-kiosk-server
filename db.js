@@ -13,7 +13,6 @@ async function save(results, extractFaces) {
         db = JSON.parse(data);
         nextId = db.length + 1;
     } catch (error) {
-        // Handle specific error (e.g., file not found) if needed
         db = [];
         nextId = 1;
     }
@@ -26,21 +25,20 @@ async function save(results, extractFaces) {
             const time = new Date().toTimeString().split(' ')[0];
             const expression = Object.entries(expressions).reduce((a, b) => a[1] > b[1] ? a : b)[0];
 
-            db.push({
-                id: nextId++, name: label, age, gender, date, time, expression
-            });
-
-            // Ensure the directory exists
             const imgDir = path.resolve(__dirname, './imgStore');
             await fs.mkdir(imgDir, { recursive: true });
 
-            // Save face image if available
             if (extractFaces[index]) {
                 const outPath = path.join(imgDir, `face_${label}_${Date.now()}_${index}.png`);
                 const data = extractFaces[index].toBuffer('image/png');
                 await fs.writeFile(outPath, data);
                 log(`Saved face image to ${outPath}`);
             }
+
+            db.push({
+                id: nextId++, name: label, expression, age, gender, date, time, path: `face_${label}_${Date.now()}_${index}.png`,
+            });
+
         } else {
             myCache.ttl(label, 120);
         }
