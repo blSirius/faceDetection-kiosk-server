@@ -3,7 +3,7 @@ const NodeCache = require("node-cache");
 const myCache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
 const path = require('path');
 
-async function save(results, extractFaces) {
+async function saveImageAndJSON(results, extractFaces) {
     let db;
     let nextId;
 
@@ -48,4 +48,4 @@ async function save(results, extractFaces) {
     }));
 }
 
-module.exports = { save };
+module.exports = { saveImageAndJSON };

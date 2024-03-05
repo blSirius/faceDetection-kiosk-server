@@ -3,6 +3,9 @@ const fileUpload = require("express-fileupload");
 const cors = require("cors");
 const { fetch_face_data } = require("./dataService.js")
 const faceApiService = require("./faceapiService.js");
+const cron = require('node-cron');
+const { imageTransfer, dataTransfer } = require("./dataTransfer.js")
+
 require('dotenv').config()
 
 const app = express();
@@ -39,6 +42,12 @@ app.use('/fetch_face_image', express.static('./imgStore'));
 
 app.get('/', async (req, res) => {
   res.json('face api server started !!!')
+});
+
+cron.schedule('0 0 * * *', () => {
+  console.log('Running a task every day at 12:00 AM');
+  imageTransfer();
+  dataTransfer();
 });
 
 app.listen(port, () => {

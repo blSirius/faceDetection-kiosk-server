@@ -38,5 +38,35 @@
     "date": "2024-03-05",
     "time": "16:57:37",
     "path": "faceBukayo Saka17096326571791.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Supakrit Julamanee",
+    "expression": "neutral",
+    "age": 24.904163360595703,
+    "gender": "male",
+    "date": "2024-03-05",
+    "time": "17:31:17",
+    "path": "faceSupakrit Julamanee17096346775130.jpg"
+  },
+  {
+    "id": 6,
+    "name": "Supakrit Julamanee",
+    "expression": "neutral",
+    "age": 24.522268295288086,
+    "gender": "male",
+    "date": "2024-03-05",
+    "time": "19:57:28",
+    "path": "faceSupakrit Julamanee17096434481750.jpg"
+  },
+  {
+    "id": 7,
+    "name": "unknown",
+    "expression": "surprised",
+    "age": 41.69960021972656,
+    "gender": "male",
+    "date": "2024-03-05",
+    "time": "19:58:10",
+    "path": "faceunknown17096434906430.jpg"
   }
 ]

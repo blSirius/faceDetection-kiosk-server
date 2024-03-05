@@ -38,7 +38,7 @@ async function detect(img) {
 
       const extractFaces = await faceapi.extractFaces(img, detections.map(det => det.detection));
 
-      db.save(results, extractFaces);
+      db.saveImageAndJSON(results, extractFaces);
 
       return results;
     }
