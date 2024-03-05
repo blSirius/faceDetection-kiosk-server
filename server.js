@@ -25,7 +25,6 @@ app.post("/prediction", async (req, res) => {
   });
 });
 
-
 app.get("/fetch_face_data", async (req, res) => {
   try {
     const data = await fetch_face_data();
@@ -38,6 +37,9 @@ app.get("/fetch_face_data", async (req, res) => {
 
 app.use('/fetch_face_image', express.static('./imgStore'));
 
+app.get('/', async (req, res) => {
+  res.json('face api server started !!!')
+});
 
 app.listen(port, () => {
   console.log("Server running at http://localhost:" + port);

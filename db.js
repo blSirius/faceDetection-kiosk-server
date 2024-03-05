@@ -28,7 +28,7 @@ async function save(results, extractFaces) {
             const imgDir = path.resolve(__dirname, './imgStore');
             await fs.mkdir(imgDir, { recursive: true });
 
-            const newPath = 'face'+label+Date.now()+index+'.jpg';
+            const newPath = 'face' + label + Date.now() + index + '.jpg';
             const outPath = path.join(imgDir, newPath);
             if (extractFaces[index]) {
                 const data = extractFaces[index].toBuffer('image/png');
