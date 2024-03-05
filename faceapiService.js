@@ -1,9 +1,8 @@
 const faceapi = require("@vladmandic/face-api/dist/face-api.node");
 const tf = require("@tensorflow/tfjs-node");
 const canvas = require("canvas");
-const fs = require('fs').promises;
 const db = require('./db.js');
-const { log } = require("console");
+const fs = require('fs').promises;
 
 const { Canvas, Image, loadImage } = canvas;
 global.ImageData = canvas.ImageData;
@@ -94,7 +93,7 @@ async function loadModels() {
   await faceapi.nets.faceRecognitionNet.loadFromDisk('./models');
   await faceapi.nets.faceExpressionNet.loadFromDisk('./models');
   await faceapi.nets.ageGenderNet.loadFromDisk('./models');
-  log('Models loaded');
+  console.log('Models loaded');
 
   modelsLoaded = true;
 };

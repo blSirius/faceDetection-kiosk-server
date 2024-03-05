@@ -18,5 +18,25 @@
     "date": "2024-03-05",
     "time": "16:50:58",
     "path": "faceunknown17096322589330.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Martin Odeguard",
+    "expression": "happy",
+    "age": 36.24210739135742,
+    "gender": "male",
+    "date": "2024-03-05",
+    "time": "16:57:37",
+    "path": "faceMartin Odeguard17096326570720.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Bukayo Saka",
+    "expression": "happy",
+    "age": 35.38195037841797,
+    "gender": "male",
+    "date": "2024-03-05",
+    "time": "16:57:37",
+    "path": "faceBukayo Saka17096326571791.jpg"
   }
 ]

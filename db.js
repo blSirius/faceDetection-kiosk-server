@@ -1,5 +1,4 @@
 const fs = require('fs').promises;
-const { log } = require('console');
 const NodeCache = require("node-cache");
 const myCache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
 const path = require('path');
@@ -33,7 +32,7 @@ async function save(results, extractFaces) {
             if (extractFaces[index]) {
                 const data = extractFaces[index].toBuffer('image/png');
                 await fs.writeFile(outPath, data);
-                log(`Saved face image to ${outPath}`);
+                console.log(`Saved face image to ${outPath}`);
             }
 
             db.push({
@@ -41,7 +40,7 @@ async function save(results, extractFaces) {
             });
 
             await fs.writeFile(path.join(process.cwd(), 'db.json'), JSON.stringify(db, null, 2));
-            log('Results saved to db.json');
+            console.log('Results saved to db.json');
 
         } else {
             myCache.ttl(label, 120);
