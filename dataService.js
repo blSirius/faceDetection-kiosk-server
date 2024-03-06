@@ -2,7 +2,7 @@ const path = require("path");
 const fs = require("fs").promises;
 
 const fetch_face_data = async () => {
-    const dbPath = path.join(process.cwd(), 'db.json')
+    const dbPath = path.join(process.cwd(), 'faceData.json')
     try {
         const data = await fs.readFile(dbPath, 'utf8');
         const users = JSON.parse(data);

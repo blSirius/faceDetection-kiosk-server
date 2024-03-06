@@ -1,7 +1,7 @@
 const faceapi = require("@vladmandic/face-api/dist/face-api.node");
 const tf = require("@tensorflow/tfjs-node");
 const canvas = require("canvas");
-const db = require('./db.js');
+const db = require('./writeJson');
 const fs = require('fs').promises;
 
 const { Canvas, Image, loadImage } = canvas;
@@ -38,7 +38,7 @@ async function detect(img) {
 
       const extractFaces = await faceapi.extractFaces(img, detections.map(det => det.detection));
 
-      db.saveImageAndJSON(results, extractFaces);
+      db.saveImageAndFaceData(results, extractFaces);
 
       return results;
     }

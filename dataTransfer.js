@@ -29,7 +29,7 @@ async function imageTransfer() {
 
 async function dataTransfer() {
     try {
-        const jsonPath = path.join(process.cwd(), 'db.json')
+        const jsonPath = path.join(process.cwd(), 'faceData.json')
         const readFile = await fs.readFile(jsonPath, 'utf8');
         const data = JSON.parse(readFile);
 

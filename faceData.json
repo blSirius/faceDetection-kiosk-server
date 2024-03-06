@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "name": "Bukayo Saka",
+    "expression": "happy",
+    "age": 39.92116165161133,
+    "gender": "male",
+    "date": "2024-03-06",
+    "time": "09:43:34",
+    "path": "faceBukayo Saka17096930143020.jpg",
+    "greeting": "คุณดูมีความสุข"
+  },
+  {
+    "id": 2,
+    "name": "Bukayo Saka",
+    "expression": "happy",
+    "age": 39.92116165161133,
+    "gender": "male",
+    "date": "2024-03-06",
+    "time": "09:44:00",
+    "path": "faceBukayo Saka17096930409170.jpg",
+    "greeting": "คุณดูมีความสุข"
+  },
+  {
+    "id": 3,
+    "name": "Bukayo Saka",
+    "expression": "happy",
+    "age": 39.92116165161133,
+    "gender": "male",
+    "date": "2024-03-06",
+    "time": "09:44:14",
+    "path": "faceBukayo Saka17096930547220.jpg",
+    "greeting": "คุณดูมีความสุข"
+  },
+  {
+    "id": 4,
+    "name": "Bukayo Saka",
+    "expression": "happy",
+    "age": 39.92116165161133,
+    "gender": "male",
+    "date": "2024-03-06",
+    "time": "09:44:24",
+    "path": "faceBukayo Saka17096930647270.jpg",
+    "greeting": "คุณดูมีความสุข"
+  },
+  {
+    "id": 5,
+    "name": "Bukayo Saka",
+    "expression": "happy",
+    "age": 39.92116165161133,
+    "gender": "male",
+    "date": "2024-03-06",
+    "time": "09:44:38",
+    "path": "faceBukayo Saka17096930780210.jpg",
+    "greeting": "ดูท่าทางจะอารมณ์ดีนะเนี้ย"
+  },
+  {
+    "id": 6,
+    "name": "Supakrit Julamanee",
+    "expression": "neutral",
+    "age": 30.53856658935547,
+    "gender": "male",
+    "date": "2024-03-06",
+    "time": "09:45:32",
+    "path": "faceSupakrit Julamanee17096931325840.jpg",
+    "greeting": "วันธรรมดาที่เเสนพิเศษ"
+  }
+]

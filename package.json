@@ -9,6 +9,7 @@
     "express": "^4.18.3",
     "express-fileupload": "^1.4.3",
     "fs": "^0.0.1-security",
+    "mysql2": "^3.9.2",
     "node-cache": "^5.1.2",
     "node-cron": "^3.0.3",
     "pat": "^0.0.1"

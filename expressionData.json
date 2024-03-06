@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "emotion": "neutral",
+    "greeting": "วันธรรมดาที่เเสนพิเศษ"
+  },
+  {
+    "id": 2,
+    "emotion": "neutral",
+    "greeting": "วันนี้อากาศดีจังเลยนะ"
+  },
+  {
+    "id": 3,
+    "emotion": "happy",
+    "greeting": "ดูท่าทางจะอารมณ์ดีนะเนี้ย"
+  },
+  {
+    "id": 4,
+    "emotion": "happy",
+    "greeting": "คุณดูมีความสุข"
+  },
+  {
+    "id": 5,
+    "emotion": "sad",
+    "greeting": "อย่าเศร้าไปเลยสหาย"
+  },
+  {
+    "id": 6,
+    "emotion": "sad",
+    "greeting": "ฟ้าหลังฝนย่อมสดใสเสมอ"
+  },
+  {
+    "id": 7,
+    "emotion": "angry",
+    "greeting": "จิตปล่อยวาง"
+  },
+  {
+    "id": 8,
+    "emotion": "angry",
+    "greeting": "อย่าทำหน้าเเบบนั้นสิ"
+  },
+  {
+    "id": 9,
+    "emotion": "disgusted",
+    "greeting": "อย่าเบื่อไปเลยพวก"
+  },
+  {
+    "id": 10,
+    "emotion": "disgusted",
+    "greeting": "หาอะไรน่าตื่นเต้นทำกันดีกว่า"
+  },
+  {
+    "id": 11,
+    "emotion": "fearful",
+    "greeting": "ผีหลอกกก"
+  },
+  {
+    "id": 12,
+    "emotion": "fearful",
+    "greeting": "รีบกลับบ้านดีกว่า"
+  },
+  {
+    "id": 13,
+    "emotion": "surprised",
+    "greeting": "คุณกำลังตื่นเต้น"
+  },
+  {
+    "id": 14,
+    "emotion": "surprised",
+    "greeting": "มหัสจรรย์ไปเลย "
+  }
+]
