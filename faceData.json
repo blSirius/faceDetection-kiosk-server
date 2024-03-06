@@ -603,5 +603,27 @@
     "time": "17:38:05",
     "path": "faceunknown17097214853980.jpg",
     "greeting": "วันนี้อากาศดีจังเลยนะ"
+  },
+  {
+    "id": 56,
+    "name": "Supakrit Julamanee",
+    "expression": "neutral",
+    "age": 23.649171829223633,
+    "gender": "male",
+    "date": "2024-03-06",
+    "time": "17:53:40",
+    "path": "faceSupakrit Julamanee17097224207130.jpg",
+    "greeting": "วันนี้อากาศดีจังเลยนะ"
+  },
+  {
+    "id": 57,
+    "name": "unknown",
+    "expression": "neutral",
+    "age": 50.785037994384766,
+    "gender": "male",
+    "date": "2024-03-06",
+    "time": "17:56:14",
+    "path": "faceunknown17097225749060.jpg",
+    "greeting": "วันนี้อากาศดีจังเลยนะ"
   }
 ]
