@@ -1,6 +1,6 @@
 const fs = require('fs').promises;
 const NodeCache = require("node-cache");
-const myCache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
+const knowCache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
 const path = require('path');
 const mysqlDB = require('./mysql.js');
 
@@ -18,8 +18,9 @@ async function saveImageAndFaceData(results, extractFaces) {
     }
 
     await Promise.all(results.map(async ({ detection: { expressions, age, gender }, faceMatch: { label } }, index) => {
-        if (!myCache.has(label)) {
-            myCache.set(label, true, 120);
+
+        if (!knowCache.has(label)) {
+            knowCache.set(label, true, 120);
 
             const date = new Date().toISOString().split('T')[0];
             const time = new Date().toTimeString().split(' ')[0];
@@ -36,7 +37,6 @@ async function saveImageAndFaceData(results, extractFaces) {
                 console.log(`Saved face image to ${outPath}`);
             }
 
-            //random greeting from expressionData.json
             const expressionData = path.join(process.cwd(), 'expressionData.json');
             const data = await fs.readFile(expressionData, 'utf8');
             const greetings = JSON.parse(data).filter(item => item.emotion === expression);
@@ -50,7 +50,7 @@ async function saveImageAndFaceData(results, extractFaces) {
             console.log('Results saved to faceData.json');
 
         } else {
-            myCache.ttl(label, 120);
+            knowCache.ttl(label, 120);
         }
     }));
 }

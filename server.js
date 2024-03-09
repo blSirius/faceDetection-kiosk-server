@@ -4,7 +4,7 @@ const cors = require("cors");
 const { fetch_face_data } = require("./dataService.js")
 const faceApiService = require("./faceapiService.js");
 const cron = require('node-cron');
-const { imageTransfer, dataTransfer } = require("./dataTransfer.js");
+const { imageTransfer, dataTransfer, unknownImageTransfer, unknownDataTransfer } = require("./dataTransfer.js");
 const mysqlDB = require('./mysql.js');
 const { saveExpressionData } = require("./writeJson.js")
 
@@ -60,6 +60,8 @@ cron.schedule('0 0 * * *', () => {
   console.log('Running a task every day at 12:00 AM');
   imageTransfer();
   dataTransfer();
+  unknownDataTransfer();
+  unknownImageTransfer();
   saveExpressionData();
 });
 

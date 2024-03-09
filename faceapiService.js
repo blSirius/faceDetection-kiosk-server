@@ -1,8 +1,9 @@
 const faceapi = require("@vladmandic/face-api/dist/face-api.node");
 const tf = require("@tensorflow/tfjs-node");
 const canvas = require("canvas");
-const db = require('./writeJson');
+const writeJson = require('./writeJson');
 const fs = require('fs').promises;
+const editUnknownData = require("./editUnknownData");
 
 const { Canvas, Image, loadImage } = canvas;
 global.ImageData = canvas.ImageData;
@@ -30,39 +31,42 @@ async function detect(img) {
       .withAgeAndGender()
       .withFaceDescriptors();
 
+    const allExtractFaces = await faceapi.extractFaces(img, detections.map(det => det.detection));
+
     if (detections.length >= 1) {
-      const results = detections.map(detection => {
+      let knownData = [];
+      let unknownData = [];
+      let knowIndex = [];
+      let unknowIndex = [];
+      detections.map((detection, index) => {
         const faceMatch = faceMatcher.findBestMatch(detection.descriptor);
-        return { detection, faceMatch };
+        if (faceMatch.label != 'unknown') {
+          knownData.push({ detection, faceMatch });
+          knowIndex.push(index);
+        }
+        else {
+          unknownData.push(detection);
+          unknowIndex.push(index)
+        }
       });
 
-      const extractFaces = await faceapi.extractFaces(img, detections.map(det => det.detection));
+      if (knownData.length > 0) {
+        const extractFacesKnown = knowIndex.map(index => allExtractFaces[index]);
+        writeJson.saveImageAndFaceData(knownData, extractFacesKnown);
+      }
 
-      db.saveImageAndFaceData(results, extractFaces);
+      if (unknownData.length > 0) {
+        const extractFacesUnknown = unknowIndex.map(index => allExtractFaces[index]);
+        editUnknownData.editUnknownData(unknownData, extractFacesUnknown);
+      }
 
-      return results;
+      return knownData;
     }
   }
   catch (error) {
-    console.log('No found face');
+    console.log(error);
     return [];
   }
-};
-
-async function main(file) {
-  await tf.setBackend("tensorflow");
-  tf.enableProdMode();
-  tf.ENV.set("DEBUG", false);
-  await tf.ready();
-
-  await loadModels();
-
-  const tensor = await prepareImage(file.data);
-  const result = await detect(tensor);
-
-  tensor.dispose();
-
-  return result;
 };
 
 async function getLabeledFaceDescriptions() {
@@ -96,6 +100,22 @@ async function loadModels() {
   console.log('Models loaded');
 
   modelsLoaded = true;
+};
+
+async function main(file) {
+  await tf.setBackend("tensorflow");
+  tf.enableProdMode();
+  tf.ENV.set("DEBUG", false);
+  await tf.ready();
+
+  await loadModels();
+
+  const tensor = await prepareImage(file.data);
+  const result = await detect(tensor);
+
+  tensor.dispose();
+
+  return result;
 };
 
 module.exports = {
