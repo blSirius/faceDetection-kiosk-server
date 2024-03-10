@@ -5,8 +5,8 @@ const { fetch_face_data } = require("./dataService.js")
 const faceApiService = require("./faceapiService.js");
 const cron = require('node-cron');
 const { imageTransfer, dataTransfer, unknownImageTransfer, unknownDataTransfer } = require("./dataTransfer.js");
-const mysqlDB = require('./mysql.js');
-const { saveExpressionData } = require("./writeJson.js")
+const mysqlDB = require('./database/mysql.js');
+const { saveExpressionData } = require("./writeKnownData.js")
 
 require('dotenv').config()
 
@@ -41,8 +41,8 @@ app.get("/fetch_face_data", async (req, res) => {
   }
 });
 
-//imgStore
-app.use('/fetch_face_image', express.static('./imgStore'));
+//knownImageStore
+app.use('/fetch_face_image', express.static('./imageFolder/knownImageStore'));
 
 //mysql
 app.get('/fetch_expression', async (req, res) => {
@@ -56,7 +56,7 @@ app.get('/fetch_expression', async (req, res) => {
 });
 
 //auto transfer data every 12.00 am.
-cron.schedule('0 0 * * *', () => {
+cron.schedule('38 7 * * *', () => {
   console.log('Running a task every day at 12:00 AM');
   imageTransfer();
   dataTransfer();

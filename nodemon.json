@@ -1,7 +1,7 @@
 {
   "ignore": [
-    "faceData.json",
-    "unknownFaceData.json",
-    "expressionData.json"
+    "./faceData/expressionData.json",
+    "./faceData/knownFaceData.json",
+    "./faceData/unknownFaceData.json"
   ]
 }

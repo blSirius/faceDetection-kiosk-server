@@ -2,14 +2,14 @@ const fs = require('fs').promises;
 const NodeCache = require("node-cache");
 const knowCache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
 const path = require('path');
-const mysqlDB = require('./mysql.js');
+const mysqlDB = require('./database/mysql.js');
 
 async function saveImageAndFaceData(results, extractFaces) {
     let db;
     let nextId;
 
     try {
-        const data = await fs.readFile(path.join(process.cwd(), 'faceData.json'), 'utf8');
+        const data = await fs.readFile(path.join(process.cwd(), './faceData/knownFaceData.json'), 'utf8');
         db = JSON.parse(data);
         nextId = db.length + 1;
     } catch (error) {
@@ -26,7 +26,7 @@ async function saveImageAndFaceData(results, extractFaces) {
             const time = new Date().toTimeString().split(' ')[0];
             const expression = Object.entries(expressions).reduce((a, b) => a[1] > b[1] ? a : b)[0];
 
-            const imgDir = path.resolve(process.cwd(), './imgStore');
+            const imgDir = path.resolve(process.cwd(), './imageFolder/knownImgStore');
             await fs.mkdir(imgDir, { recursive: true });
 
             const newPath = 'face' + label + Date.now() + index + '.jpg';
@@ -37,7 +37,7 @@ async function saveImageAndFaceData(results, extractFaces) {
                 console.log(`Saved face image to ${outPath}`);
             }
 
-            const expressionData = path.join(process.cwd(), 'expressionData.json');
+            const expressionData = path.join(process.cwd(), './faceData/expressionData.json');
             const data = await fs.readFile(expressionData, 'utf8');
             const greetings = JSON.parse(data).filter(item => item.emotion === expression);
             const greeting = greetings[Math.floor(Math.random() * greetings.length)].greeting
@@ -46,7 +46,7 @@ async function saveImageAndFaceData(results, extractFaces) {
                 id: nextId++, name: label, expression, age, gender, date, time, path: newPath, greeting: greeting,
             });
 
-            await fs.writeFile(path.join(process.cwd(), 'faceData.json'), JSON.stringify(db, null, 2));
+            await fs.writeFile(path.join(process.cwd(), './faceData/knownFaceData.json'), JSON.stringify(db, null, 2));
             console.log('Results saved to faceData.json');
 
         } else {
@@ -58,7 +58,7 @@ async function saveImageAndFaceData(results, extractFaces) {
 async function saveExpressionData() {
     try {
         const greeting = await mysqlDB.query('SELECT * FROM expression');
-        await fs.writeFile(path.join(process.cwd(), 'expressionData.json'), JSON.stringify(greeting, null, 2));
+        await fs.writeFile(path.join(process.cwd(), './faceData/expressionData.json'), JSON.stringify(greeting, null, 2));
         console.log('Update ExpressionData');
     } catch (error) {
         console.log(error);

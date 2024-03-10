@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const imgStorePath = path.join(__dirname, 'unknownImgStore');
+
+const imgStorePath = path.join(process.cwd(), './imageFolder/unknownImgStore');
 if (!fs.existsSync(imgStorePath)) {
     fs.mkdirSync(imgStorePath, { recursive: true });
 }
@@ -10,8 +11,8 @@ async function saveUnknownImageAndFaceData(faceData, imageBuffer) {
     try {
         const timestamp = Date.now();
         const imgFilename = `unknown-${timestamp}.png`;
-        const dataFilename = 'unknownFaceData.json';
-        const dataPath = path.join(__dirname, dataFilename);
+        const dataFilename = './faceData/unknownFaceData.json';
+        const dataPath = path.join(process.cwd(), dataFilename);
 
         const date = new Date().toISOString().split('T')[0];
         const time = new Date().toTimeString().split(' ')[0];
@@ -40,11 +41,7 @@ async function saveUnknownImageAndFaceData(faceData, imageBuffer) {
 
         const expression = Object.entries(faceData.expressions).reduce((a, b) => a[1] > b[1] ? a : b)[0];
 
-        // const res = fs.readFile(expression, 'utf8');
-        // const greetings = JSON.parse(res).filter(item => item.emotion === expression);
-        // const greeting = greetings[Math.floor(Math.random() * greetings.length)].greeting
-
-        const expressionsPath = path.join(__dirname, 'expressionData.json');
+        const expressionsPath = path.join(process.cwd(), './faceData/expressionData.json');
 
         let greeting = 'Hello';
         try {

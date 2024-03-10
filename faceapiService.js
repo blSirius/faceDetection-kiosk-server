@@ -1,7 +1,7 @@
 const faceapi = require("@vladmandic/face-api/dist/face-api.node");
 const tf = require("@tensorflow/tfjs-node");
 const canvas = require("canvas");
-const writeJson = require('./writeJson');
+const writeKnownData = require('./writeKnownData');
 const fs = require('fs').promises;
 const editUnknownData = require("./editUnknownData");
 
@@ -52,7 +52,7 @@ async function detect(img) {
 
       if (knownData.length > 0) {
         const extractFacesKnown = knowIndex.map(index => allExtractFaces[index]);
-        writeJson.saveImageAndFaceData(knownData, extractFacesKnown);
+        writeKnownData.saveImageAndFaceData(knownData, extractFacesKnown);
       }
 
       if (unknownData.length > 0) {

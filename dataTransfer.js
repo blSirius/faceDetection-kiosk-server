@@ -1,19 +1,19 @@
 const axios = require('axios');
-const fs = require('fs'); // For createReadStream
-const fsp = require('fs').promises; // For promise-based operations
+const fs = require('fs');
+const fsp = require('fs').promises;
 const path = require('path');
 const FormData = require('form-data');
 
 require('dotenv').config();
 
 async function imageTransfer() {
-    const imgStorePath = path.join(process.cwd(), 'imgStore');
-    const files = await fsp.readdir(imgStorePath); // promise-based read
+    const imgStorePath = path.join(process.cwd(), './imageFolder/knownImgStore');
+    const files = await fsp.readdir(imgStorePath);
 
     for (const file of files) {
         const filePath = path.join(imgStorePath, file);
         const formData = new FormData();
-        formData.append('image', fs.createReadStream(filePath)); // stream-based function
+        formData.append('image', fs.createReadStream(filePath));
 
         try {
             const res = await axios.post(process.env.ENV_TARGET_PORT + '/imageTransfer', formData, {
@@ -22,7 +22,7 @@ async function imageTransfer() {
                 },
             });
             console.log(`Uploaded ${file} successfully:`, res.data);
-            await fsp.unlink(filePath); // promise-based delete
+            await fsp.unlink(filePath);
         } catch (error) {
             console.error(`Failed to upload ${file}:`, error.message);
         }
@@ -30,28 +30,28 @@ async function imageTransfer() {
 }
 
 async function dataTransfer() {
-    const jsonPath = path.join(process.cwd(), 'faceData.json');
+    const jsonPath = path.join(process.cwd(), './faceData/knownFaceData.json');
     try {
-        const data = JSON.parse(await fsp.readFile(jsonPath, 'utf8')); // promise-based read
+        const data = JSON.parse(await fsp.readFile(jsonPath, 'utf8'));
         console.log(data);
 
         const res = await axios.post(process.env.ENV_TARGET_PORT + '/dataTransfer', { data });
         console.log(res.data);
 
-        await fsp.writeFile(jsonPath, JSON.stringify([])); // promise-based write (clearing the file)
+        await fsp.writeFile(jsonPath, JSON.stringify([]));
     } catch (error) {
         console.error('dataTransfer :', error);
     }
 }
 
 async function unknownImageTransfer() {
-    const imgStorePath = path.join(process.cwd(), 'unknownImgStore');
-    const files = await fsp.readdir(imgStorePath); // promise-based read
+    const imgStorePath = path.join(process.cwd(), './imageFolder/unknownImgStore');
+    const files = await fsp.readdir(imgStorePath);
 
     for (const file of files) {
         const filePath = path.join(imgStorePath, file);
         const formData = new FormData();
-        formData.append('image', fs.createReadStream(filePath)); // stream-based function
+        formData.append('image', fs.createReadStream(filePath));
 
         try {
             const res = await axios.post(process.env.ENV_TARGET_PORT + '/unknownImageTransfer', formData, {
@@ -60,7 +60,7 @@ async function unknownImageTransfer() {
                 },
             });
             console.log(`Uploaded ${file} successfully:`, res.data);
-            await fsp.unlink(filePath); // promise-based delete
+            await fsp.unlink(filePath);
         } catch (error) {
             console.error(`Failed to upload ${file}:`, error.message);
         }
@@ -68,15 +68,15 @@ async function unknownImageTransfer() {
 }
 
 async function unknownDataTransfer() {
-    const jsonPath = path.join(process.cwd(), 'unknownFaceData.json');
+    const jsonPath = path.join(process.cwd(), './faceData/unknownFaceData.json');
     try {
-        const data = JSON.parse(await fsp.readFile(jsonPath, 'utf8')); // promise-based read
+        const data = JSON.parse(await fsp.readFile(jsonPath, 'utf8'));
         console.log(data);
 
         const res = await axios.post(process.env.ENV_TARGET_PORT + '/unknownDataTransfer', { data });
         console.log(res.data);
 
-        await fsp.writeFile(jsonPath, JSON.stringify([])); // promise-based write (clearing the file)
+        await fsp.writeFile(jsonPath, JSON.stringify([]));
     } catch (error) {
         console.error('unknownDataTransfer :', error);
     }
