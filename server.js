@@ -48,7 +48,7 @@ app.get('/fetch_expression', async (req, res) => {
   }
 });
 
-app.use('/fetch_face_image', express.static('./imageFolder/knownImageStore'));
+app.use('/fetch_face_image', express.static('./imageFolder/knownImgStore'));
 
 app.get('/', (req, res) => {
   res.json('Face API server started !!!');
