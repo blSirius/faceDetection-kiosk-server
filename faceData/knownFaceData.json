@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Bukayo Saka",
+    "expression": "happy",
+    "age": 47.69567108154297,
+    "gender": "male",
+    "date": "10/03/2024",
+    "time": "13:28:00",
+    "path": "faceBukayo Saka17100520809800.jpg",
+    "env_path": "ดีไซน์ที่ยังไม่ได้ตั้งชื่อ.jpg",
+    "greeting": "ดูท่าทางจะอารมณ์ดีนะเนี้ย"
+  },
+  {
+    "id": 2,
+    "name": "Martin Odeguard",
+    "expression": "neutral",
+    "age": 17.73087501525879,
+    "gender": "male",
+    "date": "10/03/2024",
+    "time": "13:28:00",
+    "path": "faceMartin Odeguard17100520809801.jpg",
+    "env_path": "ดีไซน์ที่ยังไม่ได้ตั้งชื่อ.jpg",
+    "greeting": "วันนี้อากาศดีจังเลยนะ"
+  }
+]

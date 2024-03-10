@@ -3,10 +3,12 @@ const fs = require('fs');
 const fsp = require('fs').promises;
 const path = require('path');
 const FormData = require('form-data');
+const db = require('./database/mysql')
 
 require('dotenv').config();
 
-async function imageTransfer() {
+//img transfer
+async function knownImageTransfer() {
     const imgStorePath = path.join(process.cwd(), './imageFolder/knownImgStore');
     const files = await fsp.readdir(imgStorePath);
 
@@ -26,21 +28,6 @@ async function imageTransfer() {
         } catch (error) {
             console.error(`Failed to upload ${file}:`, error.message);
         }
-    }
-}
-
-async function dataTransfer() {
-    const jsonPath = path.join(process.cwd(), './faceData/knownFaceData.json');
-    try {
-        const data = JSON.parse(await fsp.readFile(jsonPath, 'utf8'));
-        console.log(data);
-
-        const res = await axios.post(process.env.ENV_TARGET_PORT + '/dataTransfer', { data });
-        console.log(res.data);
-
-        await fsp.writeFile(jsonPath, JSON.stringify([]));
-    } catch (error) {
-        console.error('dataTransfer :', error);
     }
 }
 
@@ -67,6 +54,22 @@ async function unknownImageTransfer() {
     }
 }
 
+//data transfer
+async function knownDataTransfer() {
+    const jsonPath = path.join(process.cwd(), './faceData/knownFaceData.json');
+    try {
+        const data = JSON.parse(await fsp.readFile(jsonPath, 'utf8'));
+        console.log(data);
+
+        const res = await axios.post(process.env.ENV_TARGET_PORT + '/dataTransfer', { data });
+        console.log(res.data);
+
+        await fsp.writeFile(jsonPath, JSON.stringify([]));
+    } catch (error) {
+        console.error('dataTransfer :', error);
+    }
+}
+
 async function unknownDataTransfer() {
     const jsonPath = path.join(process.cwd(), './faceData/unknownFaceData.json');
     try {
@@ -83,5 +86,5 @@ async function unknownDataTransfer() {
 }
 
 module.exports = {
-    imageTransfer, dataTransfer, unknownImageTransfer, unknownDataTransfer
+    knownImageTransfer, knownDataTransfer, unknownImageTransfer, unknownDataTransfer
 };

@@ -1,13 +1,17 @@
 const fs = require('fs');
 const path = require('path');
 
-
 const imgStorePath = path.join(process.cwd(), './imageFolder/unknownImgStore');
 if (!fs.existsSync(imgStorePath)) {
     fs.mkdirSync(imgStorePath, { recursive: true });
 }
 
-async function saveUnknownImageAndFaceData(faceData, imageBuffer) {
+async function saveUnknownImageAndFaceData(faceData, imageBuffer, envImgPath, envFile) {
+
+    const saved = path.join(process.cwd(), './imageFolder/envImgStore/'+ envImgPath);
+
+    envFile.mv(saved, (err) => { console.log(err) });
+
     try {
         const timestamp = Date.now();
         const imgFilename = `unknown-${timestamp}.png`;
@@ -15,6 +19,9 @@ async function saveUnknownImageAndFaceData(faceData, imageBuffer) {
         const dataPath = path.join(process.cwd(), dataFilename);
 
         const date = new Date().toISOString().split('T')[0];
+        const parts = date.split('-');
+        const formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
+
         const time = new Date().toTimeString().split(' ')[0];
 
         if (imageBuffer && typeof imageBuffer.toBuffer === 'function') {
@@ -60,9 +67,10 @@ async function saveUnknownImageAndFaceData(faceData, imageBuffer) {
             expression: expression,
             age: faceData.age,
             gender: faceData.gender,
-            date: date,
+            date: formattedDate,
             time: time,
             path: imgFilename,
+            env_path: envImgPath,
             greeting: greeting
         };
 

@@ -4,7 +4,8 @@ const knowCache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
 const path = require('path');
 const mysqlDB = require('./database/mysql.js');
 
-async function saveImageAndFaceData(results, extractFaces) {
+async function saveImageAndFaceData(results, extractFaces, envImgPath, envFile) {
+
     let db;
     let nextId;
 
@@ -22,7 +23,14 @@ async function saveImageAndFaceData(results, extractFaces) {
         if (!knowCache.has(label)) {
             knowCache.set(label, true, 120);
 
+
+            const saved = path.join(process.cwd(), './imageFolder/envImgStore/' + envImgPath);
+            envFile.mv(saved, (err) => { console.log(err) });
+
             const date = new Date().toISOString().split('T')[0];
+            const parts = date.split('-');
+            const formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
+
             const time = new Date().toTimeString().split(' ')[0];
             const expression = Object.entries(expressions).reduce((a, b) => a[1] > b[1] ? a : b)[0];
 
@@ -43,7 +51,7 @@ async function saveImageAndFaceData(results, extractFaces) {
             const greeting = greetings[Math.floor(Math.random() * greetings.length)].greeting
 
             db.push({
-                id: nextId++, name: label, expression, age, gender, date, time, path: newPath, greeting: greeting,
+                id: nextId++, name: label, expression, age, gender, date: formattedDate, time, path: newPath, env_path: envImgPath, greeting: greeting,
             });
 
             await fs.writeFile(path.join(process.cwd(), './faceData/knownFaceData.json'), JSON.stringify(db, null, 2));

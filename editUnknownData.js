@@ -24,7 +24,7 @@ async function loadModels() {
   }
 }
 
-const editUnknownData = async (unknownData, extractFacesUnknown) => {
+const editUnknownData = async (unknownData, extractFacesUnknown, envImgPath, envFile) => {
   if (!modelsLoaded) await loadModels();
 
   const labels = unknownCache.keys();
@@ -35,7 +35,7 @@ const editUnknownData = async (unknownData, extractFacesUnknown) => {
       const newDescriptions = new Float32Array(data.descriptor);
       unknownCache.set(label, true);
       descriptions.push({ label, descriptions: newDescriptions });
-      await writeUnknownData.saveUnknownImageAndFaceData(data, extractFacesUnknown[i]);
+      await writeUnknownData.saveUnknownImageAndFaceData(data, extractFacesUnknown[i], envImgPath, envFile);
     });
     return;
   }
