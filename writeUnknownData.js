@@ -6,15 +6,15 @@ if (!fs.existsSync(imgStorePath)) {
     fs.mkdirSync(imgStorePath, { recursive: true });
 }
 
-async function saveUnknownImageAndFaceData(faceData, imageBuffer, envImgPath, envFile) {
+async function saveUnknownImageAndFaceData(faceData, imageBuffer, envFile) {
 
-    const saved = path.join(process.cwd(), './imageFolder/envImgStore/'+ envImgPath);
+    const saved = path.join(process.cwd(), './imageFolder/envImgStore/' + envFile.name);
 
-    envFile.mv(saved, (err) => { console.log(err) });
+    envFile.mv(saved);
 
     try {
         const timestamp = Date.now();
-        const imgFilename = `unknown-${timestamp}.png`;
+        const imgFilename = `unknown-${timestamp}.jpg`;
         const dataFilename = './faceData/unknownFaceData.json';
         const dataPath = path.join(process.cwd(), dataFilename);
 
@@ -50,16 +50,15 @@ async function saveUnknownImageAndFaceData(faceData, imageBuffer, envImgPath, en
 
         const expressionsPath = path.join(process.cwd(), './faceData/expressionData.json');
 
-        let greeting = 'Hello';
+        let greeting;
         try {
             const expressionsContent = fs.readFileSync(expressionsPath, 'utf8');
             const expressionsData = JSON.parse(expressionsContent);
             const greetings = expressionsData.filter(item => item.emotion === expression);
             greeting = greetings[Math.floor(Math.random() * greetings.length)].greeting;
 
-
-        } catch (readError) {
-            console.error('Error reading expressions file:', readError);
+        } catch (error) {
+            console.error('Error reading expressionData.json file:', error);
         }
 
         const dataToStore = {
@@ -70,17 +69,16 @@ async function saveUnknownImageAndFaceData(faceData, imageBuffer, envImgPath, en
             date: formattedDate,
             time: time,
             path: imgFilename,
-            env_path: envImgPath,
+            env_path: envFile.name,
             greeting: greeting
         };
 
         existingData.push(dataToStore);
         fs.writeFileSync(dataPath, JSON.stringify(existingData, null, 2));
 
-        console.log('Data updated successfully.');
+        console.log('Save new unknown image and face data successfully.');
     } catch (error) {
         console.error('Error saving unknown image and face data:', error);
     }
 }
-
 module.exports = { saveUnknownImageAndFaceData };

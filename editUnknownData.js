@@ -1,31 +1,15 @@
 const faceapi = require("@vladmandic/face-api/dist/face-api.node");
-const canvas = require("canvas");
-const NodeCache = require("node-cache");
 const writeUnknownData = require("./writeUnknownData");
+const NodeCache = require("node-cache");
+const canvas = require("canvas");
 
 const { Canvas, Image } = canvas;
 faceapi.env.monkeyPatch({ Canvas, Image, ImageData: canvas.ImageData });
 
 const unknownCache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
-let modelsLoaded = false;
 let descriptions = [];
 
-async function loadModels() {
-  if (!modelsLoaded) {
-    await Promise.all([
-      faceapi.nets.ssdMobilenetv1.loadFromDisk('./models'),
-      faceapi.nets.faceLandmark68Net.loadFromDisk('./models'),
-      faceapi.nets.faceRecognitionNet.loadFromDisk('./models'),
-      faceapi.nets.faceExpressionNet.loadFromDisk('./models'),
-      faceapi.nets.ageGenderNet.loadFromDisk('./models')
-    ]);
-    console.log('Models loaded');
-    modelsLoaded = true;
-  }
-}
-
 const editUnknownData = async (unknownData, extractFacesUnknown, envImgPath, envFile) => {
-  if (!modelsLoaded) await loadModels();
 
   const labels = unknownCache.keys();
 
@@ -54,10 +38,14 @@ const editUnknownData = async (unknownData, extractFacesUnknown, envImgPath, env
         unknownCache.set(label, newDescriptions);
         descriptions.push({ label, descriptions: newDescriptions });
         await writeUnknownData.saveUnknownImageAndFaceData(data, extractFacesUnknown[i]);
+
+        console.log('Create new unknown user id', label);
       } else {
         unknownCache.ttl(faceMatch.label, 120);
+
+        console.log('The unknown user matching with id', faceMatch.label);
       }
-      console.log(faceMatch);
+
     });
   } catch (error) {
     console.log(error);

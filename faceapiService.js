@@ -20,10 +20,10 @@ async function prepareImage(file) {
   return result;
 };
 
-async function detect(envImg, envImgPath, envFile) {
+async function detect(envImg, envFile) {
 
   const labeledFaceDescriptors = await getLabeledFaceDescriptions();
-  const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6);
+  const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.5);
 
   try {
     const detections = await faceapi.detectAllFaces(envImg)
@@ -53,12 +53,12 @@ async function detect(envImg, envImgPath, envFile) {
 
       if (knownData.length > 0) {
         const extractFacesKnown = knowIndex.map(index => allExtractFaces[index]);
-        writeKnownData.saveImageAndFaceData(knownData, extractFacesKnown, envImgPath, envFile);
+        writeKnownData.saveImageAndFaceData(knownData, extractFacesKnown, envFile);
       }
 
       if (unknownData.length > 0) {
         const extractFacesUnknown = unknowIndex.map(index => allExtractFaces[index]);
-        editUnknownData.editUnknownData(unknownData, extractFacesUnknown, envImgPath, envFile);
+        editUnknownData.editUnknownData(unknownData, extractFacesUnknown,  envFile);
       }
 
       return knownData;
@@ -103,7 +103,7 @@ async function loadModels() {
   modelsLoaded = true;
 };
 
-async function main(file, envImgPath) {
+async function main(file) {
 
   await tf.setBackend("tensorflow");
   tf.enableProdMode();
@@ -113,7 +113,7 @@ async function main(file, envImgPath) {
   await loadModels();
 
   const tensor = await prepareImage(file.data);
-  const result = await detect(tensor, envImgPath, file);
+  const result = await detect(tensor, file);
 
   tensor.dispose();
 
