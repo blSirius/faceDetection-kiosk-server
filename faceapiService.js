@@ -23,7 +23,7 @@ async function prepareImage(file) {
 async function detect(envImg, envFile) {
 
   const labeledFaceDescriptors = await getLabeledFaceDescriptions();
-  const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.5);
+  const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6);
 
   try {
     const detections = await faceapi.detectAllFaces(envImg)

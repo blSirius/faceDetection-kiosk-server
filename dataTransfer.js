@@ -15,10 +15,10 @@ async function knownImageTransfer() {
     for (const file of files) {
         const filePath = path.join(imgStorePath, file);
         const formData = new FormData();
-        formData.append('image', fs.createReadStream(filePath));
+        formData.append('image', await fs.createReadStream(filePath));
 
         try {
-            const res = await axios.post(process.env.ENV_TARGET_PORT + '/imageTransfer', formData, {
+            const res = await axios.post(process.env.ENV_TARGET_PORT + '/knownImageTransfer', formData, {
                 headers: {
                     ...formData.getHeaders(),
                 },
@@ -54,37 +54,85 @@ async function unknownImageTransfer() {
     }
 }
 
-//data transfer
 async function knownDataTransfer() {
-    const jsonPath = path.join(process.cwd(), './faceData/knownFaceData.json');
+    const jsonPath = path.join(process.cwd(), './faceData/knownFaceData.json'); // Use __dirname to ensure the path is correctly resolved.
     try {
         const data = JSON.parse(await fsp.readFile(jsonPath, 'utf8'));
-        console.log(data);
 
-        const res = await axios.post(process.env.ENV_TARGET_PORT + '/dataTransfer', { data });
-        console.log(res.data);
+        if (data.length === 0) {
+            console.log('No data to transfer.');
+            return;
+        }
+        const updatedData = data.map(({ id, ...rest }) => rest);
+        // Prepare your SQL query for batch insertion.
+        let sql = 'INSERT INTO face_detection (name, expression, age, gender, date, time, path, env_path, greeting) VALUES ?';
+        let values = updatedData.map(item => [item.name, item.expression, item.age, item.gender, item.date, item.time, item.path, item.env_path, item.greeting]);
 
+        // Use the promise-based query function from your database module.
+        await db.query(sql, [values]).then(result => {
+            console.log('Data transferred successfully:', result);
+        }).catch(err => {
+            throw err; // Throw error to be caught by the outer catch block.
+        });
+
+        // Clear the JSON file after successful insertion.
         await fsp.writeFile(jsonPath, JSON.stringify([]));
+        console.log('unknownDataTransfer is successful');
     } catch (error) {
-        console.error('dataTransfer :', error);
+        console.error('DataTransfer error:', error);
     }
 }
 
 async function unknownDataTransfer() {
-    const jsonPath = path.join(process.cwd(), './faceData/unknownFaceData.json');
+    const jsonPath = path.join(process.cwd(), './faceData/unknownFaceData.json'); // Use __dirname to ensure the path is correctly resolved.
     try {
         const data = JSON.parse(await fsp.readFile(jsonPath, 'utf8'));
-        console.log(data);
+        if (data.length === 0) {
+            console.log('No data to transfer.');
+            return;
+        }
+        // Prepare your SQL query for batch insertion.
+        let sql = 'INSERT INTO face_detection (name, expression, age, gender, date, time, path, env_path, greeting) VALUES ?';
+        let values = data.map(item => [item.name, item.expression, item.age, item.gender, item.date, item.time, item.path, item.env_path, item.greeting]);
 
-        const res = await axios.post(process.env.ENV_TARGET_PORT + '/unknownDataTransfer', { data });
-        console.log(res.data);
+        // Use the promise-based query function from your database module.
+        await db.query(sql, [values]).then(result => {
+            console.log('Data transferred successfully:', result);
+        }).catch(err => {
+            throw err; // Throw error to be caught by the outer catch block.
+        });
 
+        // Clear the JSON file after successful insertion.
         await fsp.writeFile(jsonPath, JSON.stringify([]));
+        console.log('unknownDataTransfer is successful');
     } catch (error) {
-        console.error('unknownDataTransfer :', error);
+        console.error('DataTransfer error:', error);
+    }
+}
+
+async function envImageTransfer() {
+    const imgStorePath = path.join(process.cwd(), './imageFolder/envImgStore');
+    const files = await fsp.readdir(imgStorePath);
+
+    for (const file of files) {
+        const filePath = path.join(imgStorePath, file);
+        const formData = new FormData();
+        formData.append('image', fs.createReadStream(filePath));
+
+        try {
+            const res = await axios.post(process.env.ENV_TARGET_PORT + '/envImageTransfer', formData, {
+                headers: {
+                    ...formData.getHeaders(),
+                },
+            });
+            console.log(`Uploaded ${file} successfully:`, res.data);
+            await fsp.unlink(filePath);
+        } catch (error) {
+            console.error(`Failed to upload ${file}:`, error.message);
+        }
     }
 }
 
 module.exports = {
-    knownImageTransfer, knownDataTransfer, unknownImageTransfer, unknownDataTransfer
+    knownImageTransfer, knownDataTransfer, unknownImageTransfer, unknownDataTransfer, envImageTransfer
 };
