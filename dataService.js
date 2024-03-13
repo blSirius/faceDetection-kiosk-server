@@ -10,7 +10,7 @@ const fetch_face_data = async () => {
         const filteredUsers = users
             .filter(user => user.name.toLowerCase() !== "unknown")
             .sort((a, b) => b.id - a.id)
-            .slice(0, 8);
+            .slice(0, 4);
 
         return filteredUsers;
     } catch (error) {

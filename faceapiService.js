@@ -40,14 +40,16 @@ async function detect(envImg, envFile) {
       let knowIndex = [];
       let unknowIndex = [];
       detections.map((detection, index) => {
-        const faceMatch = faceMatcher.findBestMatch(detection.descriptor);
-        if (faceMatch.label != 'unknown') {
-          knownData.push({ detection, faceMatch });
-          knowIndex.push(index);
-        }
-        else {
-          unknownData.push(detection);
-          unknowIndex.push(index)
+        if (detection.detection.score >= 0.7) {
+          const faceMatch = faceMatcher.findBestMatch(detection.descriptor);
+          if (faceMatch.label != 'unknown') {
+            knownData.push({ detection, faceMatch });
+            knowIndex.push(index);
+          }
+          else {
+            unknownData.push(detection);
+            unknowIndex.push(index)
+          }
         }
       });
 
@@ -58,7 +60,7 @@ async function detect(envImg, envFile) {
 
       if (unknownData.length > 0) {
         const extractFacesUnknown = unknowIndex.map(index => allExtractFaces[index]);
-        editUnknownData.editUnknownData(unknownData, extractFacesUnknown,  envFile);
+        editUnknownData.editUnknownData(unknownData, extractFacesUnknown, envFile);
       }
 
       return knownData;

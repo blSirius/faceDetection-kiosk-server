@@ -2,7 +2,7 @@ const { knownDataTransfer, knownImageTransfer, unknownImageTransfer, unknownData
 const { saveExpressionData } = require("./writeKnownData.js");
 const cron = require('node-cron');
 
-cron.schedule('16 11 * * *', async () => {
+cron.schedule('0 0 * * *', async () => {
 
     try {
         console.log('Running a task every day at 12:00 AM');

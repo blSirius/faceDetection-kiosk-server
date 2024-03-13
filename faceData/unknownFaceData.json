@@ -1,13 +1,1 @@
-[
-  {
-    "name": "unknown",
-    "expression": "neutral",
-    "age": 38.89070129394531,
-    "gender": "male",
-    "date": "11/03/2024",
-    "time": "11:16:32",
-    "path": "unknown-1710130592572.jpg",
-    "env_path": "env-1710130591807.jpg",
-    "greeting": "วันนี้อากาศดีจังเลยนะ"
-  }
-]
+[]
