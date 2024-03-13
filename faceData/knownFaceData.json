@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "id": 1,
+    "name": "Supakrit Julamanee",
+    "expression": "neutral",
+    "age": 20.94254493713379,
+    "gender": "male",
+    "date": "13/03/2024",
+    "time": "19:14:36",
+    "path": "Supakrit Julamanee-17103320766750.jpg",
+    "env_path": "env-1710332063091.jpg",
+    "greeting": "วันนี้อากาศดีจังเลยนะ"
+  }
+]
