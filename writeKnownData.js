@@ -9,6 +9,7 @@ async function saveImageAndFaceData(results, extractFaces, envFile) {
 
     let db;
     let nextId;
+    let newFace = [];
 
     try {
         const data = await fs.readFile(path.join(process.cwd(), './faceData/knownFaceData.json'), 'utf8');
@@ -20,9 +21,9 @@ async function saveImageAndFaceData(results, extractFaces, envFile) {
     }
 
     await Promise.all(results.map(async ({ detection: { expressions, age, gender }, faceMatch: { label } }, index) => {
-
         if (!knowCache.has(label)) {
             knowCache.set(label, true, 120);
+            newFace.push(label)
 
             const saved = path.join(process.cwd(), './imageFolder/envImgStore/' + envFile.name);
             envFile.mv(saved);
@@ -37,7 +38,7 @@ async function saveImageAndFaceData(results, extractFaces, envFile) {
             const imgDir = path.resolve(process.cwd(), './imageFolder/knownImgStore');
             await fs.mkdir(imgDir, { recursive: true });
 
-            const newPath =  label + '-' + Date.now() + index + '.jpg';
+            const newPath = label + '-' + Date.now() + index + '.jpg';
             const outPath = path.join(imgDir, newPath);
             if (extractFaces[index]) {
                 const data = extractFaces[index].toBuffer('image/png');
@@ -61,6 +62,13 @@ async function saveImageAndFaceData(results, extractFaces, envFile) {
             knowCache.ttl(label, 120);
         }
     }));
+    if (newFace.length > 0) {
+        return newFace;
+    }
+    else {
+        return ['empty'];
+    }
+
 };
 
 async function saveExpressionData() {

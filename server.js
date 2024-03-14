@@ -25,7 +25,7 @@ app.post("/prediction", async (req, res) => {
   const file = req.files.file;
   const result = await faceApiService.detect(file);
 
-  res.json({ detectedFaces: result });
+  res.json(result);
 });
 
 app.get("/fetch_face_data", async (req, res) => {

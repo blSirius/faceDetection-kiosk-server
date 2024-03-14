@@ -9,7 +9,7 @@ faceapi.env.monkeyPatch({ Canvas, Image, ImageData: canvas.ImageData });
 const unknownCache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
 let descriptions = [];
 
-const editUnknownData = async (unknownData, extractFacesUnknown,  envFile) => {
+const editUnknownData = async (unknownData, extractFacesUnknown, envFile) => {
 
   const labels = unknownCache.keys();
 
@@ -19,7 +19,7 @@ const editUnknownData = async (unknownData, extractFacesUnknown,  envFile) => {
       const newDescriptions = new Float32Array(data.descriptor);
       unknownCache.set(label, true);
       descriptions.push({ label, descriptions: newDescriptions });
-      await writeUnknownData.saveUnknownImageAndFaceData(data, extractFacesUnknown[i],  envFile);
+      await writeUnknownData.saveUnknownImageAndFaceData(data, extractFacesUnknown[i], envFile);
     });
     return;
   }

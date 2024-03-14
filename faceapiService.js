@@ -53,22 +53,23 @@ async function detect(envImg, envFile) {
         }
       });
 
-      if (knownData.length > 0) {
-        const extractFacesKnown = knowIndex.map(index => allExtractFaces[index]);
-        writeKnownData.saveImageAndFaceData(knownData, extractFacesKnown, envFile);
-      }
-
       if (unknownData.length > 0) {
         const extractFacesUnknown = unknowIndex.map(index => allExtractFaces[index]);
         editUnknownData.editUnknownData(unknownData, extractFacesUnknown, envFile);
       }
 
-      return knownData;
+      if (knownData.length > 0) {
+        const extractFacesKnown = knowIndex.map(index => allExtractFaces[index]);
+        return writeKnownData.saveImageAndFaceData(knownData, extractFacesKnown, envFile);
+      }
+      else {
+        return ['empty'];
+      }
     }
   }
   catch (error) {
     console.log(error);
-    return [];
+    return ['empty'];
   }
 };
 
