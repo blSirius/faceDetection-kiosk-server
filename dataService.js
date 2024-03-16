@@ -1,7 +1,7 @@
 const path = require("path");
 const fs = require("fs").promises;
 
-const fetch_face_data = async () => {
+const fetch_face_data = async (newCard) => {
     const dbPath = path.join(process.cwd(), './faceData/knownFaceData.json')
     try {
         const data = await fs.readFile(dbPath, 'utf8');
@@ -10,7 +10,7 @@ const fetch_face_data = async () => {
         const filteredUsers = users
             .filter(user => user.name.toLowerCase() !== "unknown")
             .sort((a, b) => b.id - a.id)
-            .slice(0, 4);
+            .slice(0,newCard);
 
         return filteredUsers;
     } catch (error) {

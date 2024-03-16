@@ -28,9 +28,11 @@ app.post("/prediction", async (req, res) => {
   res.json(result);
 });
 
-app.get("/fetch_face_data", async (req, res) => {
+app.post("/fetch_face_data", async (req, res) => {
+  // console.log('hello server', req.body)
+  const { newCard } = req.body;
   try {
-    const data = await fetch_face_data();
+    const data = await fetch_face_data(newCard);
     res.json(data);
   } catch (error) {
     console.error('Error reading the database file:', error.message);

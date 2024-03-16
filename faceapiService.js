@@ -4,6 +4,7 @@ const canvas = require("canvas");
 const writeKnownData = require('./writeKnownData');
 const fs = require('fs').promises;
 const editUnknownData = require("./editUnknownData");
+const path = require("path");
 
 const { Canvas, Image, loadImage } = canvas;
 global.ImageData = canvas.ImageData;
@@ -74,19 +75,29 @@ async function detect(envImg, envFile) {
 };
 
 async function getLabeledFaceDescriptions() {
-  const labels = await fs.readdir('./labels', { withFileTypes: true })
+  const labelsDir = './labels';
+  const labels = await fs.readdir(labelsDir, { withFileTypes: true })
     .then(dirents => dirents.filter(dirent => dirent.isDirectory()).map(dirent => dirent.name));
+
   return Promise.all(labels.map(async label => {
     const descriptions = [];
-    for (let i = 1; i <= 1; i++) {
-      const imgPath = `./labels/${label}/${i}.jpg`;
-      const img = await loadImage(imgPath);
-      const detections = await faceapi
-        .detectSingleFace(img)
-        .withFaceLandmarks()
-        .withFaceDescriptor();
-      if (detections) {
-        descriptions.push(detections.descriptor);
+    const dirPath = path.join(labelsDir, label);
+    const imageFiles = await fs.readdir(dirPath);
+
+    const jpgFiles = imageFiles.filter(file => path.extname(file).toLowerCase() === '.jpg');
+
+    for (let imageName of jpgFiles) {
+      const imgPath = path.join(dirPath, imageName);
+      try {
+        // Read the image file into a buffer and load it into canvas
+        const imageBuffer = await fs.readFile(imgPath);
+        const img = await canvas.loadImage(imageBuffer);
+        const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
+        if (detections) {
+          descriptions.push(detections.descriptor);
+        }
+      } catch (error) {
+        console.error(`Error processing image ${imageName} in ${dirPath}:`, error);
       }
     }
     return new faceapi.LabeledFaceDescriptors(label, descriptions);

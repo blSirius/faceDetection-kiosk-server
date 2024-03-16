@@ -64,18 +64,16 @@ async function knownDataTransfer() {
             return;
         }
         const updatedData = data.map(({ id, ...rest }) => rest);
-        // Prepare your SQL query for batch insertion.
+
         let sql = 'INSERT INTO face_detection (name, expression, age, gender, date, time, path, env_path, greeting) VALUES ?';
         let values = updatedData.map(item => [item.name, item.expression, item.age, item.gender, item.date, item.time, item.path, item.env_path, item.greeting]);
 
-        // Use the promise-based query function from your database module.
         await db.query(sql, [values]).then(result => {
             console.log('Data transferred successfully:', result);
         }).catch(err => {
-            throw err; // Throw error to be caught by the outer catch block.
+            throw err;
         });
 
-        // Clear the JSON file after successful insertion.
         await fsp.writeFile(jsonPath, JSON.stringify([]));
         console.log('unknownDataTransfer is successful');
     } catch (error) {
@@ -91,18 +89,16 @@ async function unknownDataTransfer() {
             console.log('No data to transfer.');
             return;
         }
-        // Prepare your SQL query for batch insertion.
+
         let sql = 'INSERT INTO face_detection (name, expression, age, gender, date, time, path, env_path, greeting) VALUES ?';
         let values = data.map(item => [item.name, item.expression, item.age, item.gender, item.date, item.time, item.path, item.env_path, item.greeting]);
 
-        // Use the promise-based query function from your database module.
         await db.query(sql, [values]).then(result => {
             console.log('Data transferred successfully:', result);
         }).catch(err => {
-            throw err; // Throw error to be caught by the outer catch block.
+            throw err;
         });
 
-        // Clear the JSON file after successful insertion.
         await fsp.writeFile(jsonPath, JSON.stringify([]));
         console.log('unknownDataTransfer is successful');
     } catch (error) {
