@@ -7,7 +7,6 @@ const db = require('./database/mysql')
 
 require('dotenv').config();
 
-//img transfer
 async function knownImageTransfer() {
     const imgStorePath = path.join(process.cwd(), './imageFolder/knownImgStore');
     const files = await fsp.readdir(imgStorePath);

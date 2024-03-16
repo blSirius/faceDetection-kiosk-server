@@ -5,7 +5,6 @@ const { fetch_face_data } = require("./dataService.js");
 const mysqlDB = require('./database/mysql.js');
 const faceApiService = require("./faceapiService.js");
 
-
 require("./rutine.js");
 require('dotenv').config();
 
@@ -29,7 +28,6 @@ app.post("/prediction", async (req, res) => {
 });
 
 app.post("/fetch_face_data", async (req, res) => {
-  // console.log('hello server', req.body)
   const { newCard } = req.body;
   try {
     const data = await fetch_face_data(newCard);
@@ -54,6 +52,43 @@ app.use('/fetch_face_image', express.static('./imageFolder/knownImgStore'));
 
 app.get('/', (req, res) => {
   res.json('Face API server started !!!');
+});
+
+app.delete('/deleteLabelImage', (req, res) => {
+  const { labelName, imageName } = req.body;
+  const folderName = 'labels/' + labelName
+  const imagePath = path.join(process.cwd(), folderName, imageName);
+
+  fs.unlink(imagePath, (err) => {
+    if (err) {
+      console.error('Error deleting image:', err);
+      return res.status(500).send('Error deleting image');
+    }
+    console.log('Image deleted successfully');
+    res.send('Image deleted successfully');
+  });
+});
+
+app.post('/addLabelImage', (req, res) => {
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).send('No files were uploaded.');
+  }
+  const uploadedImage = req.files.image; 
+  const labelName = req.body.labelName;
+  const uploadPath = path.join(process.cwd(), 'labels', labelName, uploadedImage.name);
+
+  const directoryPath = path.join(process.cwd(), 'labels', labelName);
+  if (!fs.existsSync(directoryPath)) {
+    fs.mkdirSync(directoryPath, { recursive: true });
+  }
+
+  uploadedImage.mv(uploadPath, function(err) {
+    if (err) {
+      return res.status(500).send(err);
+    }
+
+    res.send('File uploaded successfully.');
+  });
 });
 
 app.listen(port, () => {
