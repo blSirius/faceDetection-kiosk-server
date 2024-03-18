@@ -10,7 +10,7 @@ const fetch_face_data = async (newCard) => {
         const filteredUsers = users
             .filter(user => user.name.toLowerCase() !== "unknown")
             .sort((a, b) => b.id - a.id)
-            .slice(0,newCard);
+            .slice(0, 5);
 
         return filteredUsers;
     } catch (error) {

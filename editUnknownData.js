@@ -6,7 +6,7 @@ const canvas = require("canvas");
 const { Canvas, Image } = canvas;
 faceapi.env.monkeyPatch({ Canvas, Image, ImageData: canvas.ImageData });
 
-const unknownCache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
+const unknownCache = new NodeCache({ stdTTL: 30, checkperiod: 30 });
 let descriptions = [];
 
 const editUnknownData = async (unknownData, extractFacesUnknown, envFile) => {
@@ -41,7 +41,7 @@ const editUnknownData = async (unknownData, extractFacesUnknown, envFile) => {
 
         console.log('Create new unknown user id', label);
       } else {
-        unknownCache.ttl(faceMatch.label, 120);
+        unknownCache.ttl(faceMatch.label, 30);
 
         console.log('The unknown user matching with id', faceMatch.label);
       }

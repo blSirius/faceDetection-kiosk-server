@@ -3,7 +3,7 @@ const fs = require('fs').promises;
 const NodeCache = require("node-cache");
 const mysqlDB = require('./database/mysql.js');
 
-const knowCache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
+const knowCache = new NodeCache({ stdTTL: 30, checkperiod: 30 });
 
 async function saveImageAndFaceData(results, extractFaces, envFile) {
 
@@ -59,7 +59,7 @@ async function saveImageAndFaceData(results, extractFaces, envFile) {
             console.log('Results saved to faceData.json');
 
         } else {
-            knowCache.ttl(label, 120);
+            knowCache.ttl(label, 30);
         }
     }));
     if (newFace.length > 0) {
