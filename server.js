@@ -56,7 +56,7 @@ app.get('/', (req, res) => {
 
 app.delete('/deleteLabelImage', (req, res) => {
   const { labelName, imageName } = req.body;
-  const folderName = 'labels/' + labelName
+  const folderName = 'labels/' + labelName;
   const imagePath = path.join(process.cwd(), folderName, imageName);
 
   fs.unlink(imagePath, (err) => {
@@ -64,8 +64,27 @@ app.delete('/deleteLabelImage', (req, res) => {
       console.error('Error deleting image:', err);
       return res.status(500).send('Error deleting image');
     }
-    console.log('Image deleted successfully');
-    res.send('Image deleted successfully');
+
+    fs.readdir(path.join(process.cwd(), folderName), (err, files) => {
+      if (err) {
+        console.error('Error reading directory:', err);
+        return res.status(500).send('Error deleting image');
+      }
+
+      if (files.length === 0) {
+        fs.rmdir(path.join(process.cwd(), folderName), (err) => {
+          if (err) {
+            console.error('Error deleting folder:', err);
+            return res.status(500).send('Error deleting image');
+          }
+          console.log('Folder deleted successfully');
+          res.send('Image and folder deleted successfully');
+        });
+      } else {
+        console.log('Image deleted successfully');
+        res.send('Image deleted successfully');
+      }
+    });
   });
 });
 
@@ -73,7 +92,7 @@ app.post('/addLabelImage', (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).send('No files were uploaded.');
   }
-  const uploadedImage = req.files.image; 
+  const uploadedImage = req.files.image;
   const labelName = req.body.labelName;
   const uploadPath = path.join(process.cwd(), 'labels', labelName, uploadedImage.name);
 
@@ -82,7 +101,7 @@ app.post('/addLabelImage', (req, res) => {
     fs.mkdirSync(directoryPath, { recursive: true });
   }
 
-  uploadedImage.mv(uploadPath, function(err) {
+  uploadedImage.mv(uploadPath, function (err) {
     if (err) {
       return res.status(500).send(err);
     }
